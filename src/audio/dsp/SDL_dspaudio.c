@@ -104,6 +104,7 @@ DSP_OpenDevice(_THIS, const char *devname)
     }
 
     /* Make the file descriptor use blocking i/o with fcntl() */
+    #if !defined(LACKS_FCNTL_H) && 0
     {
         long ctlflags;
         ctlflags = fcntl(this->hidden->audio_fd, F_GETFL);
@@ -112,6 +113,7 @@ DSP_OpenDevice(_THIS, const char *devname)
             return SDL_SetError("Couldn't set audio blocking mode");
         }
     }
+    #endif
 
     /* Get a list of supported hardware formats */
     if (ioctl(this->hidden->audio_fd, SNDCTL_DSP_GETFMTS, &value) < 0) {
