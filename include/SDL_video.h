@@ -32,6 +32,7 @@
 #include "SDL_pixels.h"
 #include "SDL_rect.h"
 #include "SDL_surface.h"
+#include "SDL_video_hook.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */

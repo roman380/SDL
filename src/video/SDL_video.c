@@ -24,6 +24,7 @@
 
 #include "SDL.h"
 #include "SDL_video.h"
+#include "SDL_video_hook.h"
 #include "SDL_sysvideo.h"
 #include "SDL_blit.h"
 #include "SDL_pixels_c.h"
@@ -32,6 +33,8 @@
 #include "../timer/SDL_timer_c.h"
 
 #include "SDL_syswm.h"
+
+extern SDL_VideoHook video_hook;
 
 #if SDL_VIDEO_OPENGL
 #include "SDL_opengl.h"
@@ -1796,6 +1799,10 @@ SDL_CreateWindow(const char *title, int x, int y, int w, int h, Uint32 flags)
         SDL_SetWindowTitle(window, title);
     }
     SDL_FinishWindowCreation(window, flags);
+
+    if (video_hook.After_CreateWindow) {
+        video_hook.After_CreateWindow(window);
+    }
 
     /* If the window was created fullscreen, make sure the mode code matches */
     SDL_UpdateFullscreenMode(window, FULLSCREEN_VISIBLE(window));
@@ -4086,6 +4093,10 @@ SDL_GL_CreateContext(SDL_Window * window)
         _this->current_glctx = ctx;
         SDL_TLSSet(_this->current_glwin_tls, window, NULL);
         SDL_TLSSet(_this->current_glctx_tls, ctx, NULL);
+    
+        if (video_hook.After_GL_CreateContext) {
+            video_hook.After_GL_CreateContext(window, ctx);
+        }
     }
     return ctx;
 }
@@ -4205,6 +4216,9 @@ SDL_GL_SwapWindowWithResult(SDL_Window * window)
 void
 SDL_GL_SwapWindow(SDL_Window * window)
 {
+    if (video_hook.Before_GL_SwapWindow) {
+        video_hook.Before_GL_SwapWindow(window);
+    }
     SDL_GL_SwapWindowWithResult(window);
 }
 
