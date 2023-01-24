@@ -17,6 +17,7 @@ typedef struct
     void (SDLCALL* After_CreateWindow) (struct SDL_Window*);
     void (SDLCALL* After_GL_CreateContext) (struct SDL_Window*, SDL_GLContext);
     void (SDLCALL* Before_GL_SwapWindow) (struct SDL_Window*);
+    void (SDLCALL* After_GL_SwapWindow) (struct SDL_Window*);
 } SDL_VideoHook;
 
 extern DECLSPEC void SDLCALL SDL_SetVideoHook(const SDL_VideoHook* value);

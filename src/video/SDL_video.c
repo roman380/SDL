@@ -4220,6 +4220,9 @@ SDL_GL_SwapWindow(SDL_Window * window)
         video_hook.Before_GL_SwapWindow(window);
     }
     SDL_GL_SwapWindowWithResult(window);
+    if (video_hook.After_GL_SwapWindow) {
+        video_hook.After_GL_SwapWindow(window);
+    }
 }
 
 void
